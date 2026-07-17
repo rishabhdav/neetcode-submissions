@@ -1,55 +1,52 @@
 class ListNode{
     int val;
     ListNode next;
-
     ListNode(int val){
         this.val=val;
-        this.next=null;
+        next=null;
+
     }
 }
 
 class MyCircularQueue {
-    int space;
-    ListNode left;
-    ListNode right;
-
-
+      
+      int space;
+      ListNode left;
+      ListNode right;
     public MyCircularQueue(int k) {
-    this.space=k;
-    this.left=new ListNode(0);
-    this.right=this.left;
+        this.space=k;
+       this.left=new ListNode(-1);
+       this.right=left;
         
     }
     
     public boolean enQueue(int value) {
-
-        if(isFull()) return false;
-        ListNode newNode=new ListNode(value);
         
-        this.right.next=newNode;
-        right=newNode;
-        space--;
-        return true;
-    }
+    if(isFull())  return false;
+  ListNode curr=new ListNode(value);
+   this.right.next=curr;
+   this.right=curr;
+   space--;
+   return true;
+     }
     
     public boolean deQueue() {
         if(isEmpty()) return false;
-         if(this.left.next.next==null) {
-            this.left=null;
-            right=this.left;
-            space++;
-            return true;
-         }
 
-         else{
+        if(this.left.next.next==null){
+            this.left.next=null;
+            this.right=this.left;
+        }
 
-            this.left.next=this.left.next.next;
-            this.left.next.next=null;
-            space++;
-            return true;
-         }
+        else{
+           ListNode newNode=this.left.next;
+           this.left.next=this.left.next.next;
+           newNode.next=null;
+            
 
-        
+        }
+        space++;
+        return true;
     }
     
     public int Front() {
@@ -59,12 +56,13 @@ class MyCircularQueue {
     }
     
     public int Rear() {
-          if(isEmpty()) return -1;
-        return this.right.val;
+       if(isEmpty()) return -1;
+        return this.right.val; 
+        
     }
     
     public boolean isEmpty() {
-        return this.left==this.right?true:false;
+        return this.left.next==null?true:false;
         
     }
     
