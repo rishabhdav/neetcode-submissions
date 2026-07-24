@@ -1,14 +1,16 @@
 class Solution {
     public int lastStoneWeight(int[] stones) {
-        
-        int t=0;
-        int first=stones[0];
-        int second=stones[1];
-        t=Math.abs(first-second);
-
-        for(int i=2;i<stones.length;i++){
-            t=Math.abs(t-stones[i]);
+        PriorityQueue<Integer>pq=new PriorityQueue<>((a,b)->b-a);
+        for(Integer it:stones){
+            pq.add(it);
         }
-        return t;
+        int t=0;
+        while(pq.size()>1){
+            int first=pq.poll();
+            int second=pq.poll();
+            t=Math.abs(first-second);
+            pq.add(t);
+        }
+        return pq.peek();
     }
 }
