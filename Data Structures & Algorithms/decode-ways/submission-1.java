@@ -1,0 +1,23 @@
+class Solution {
+    public int numDecodings(String s) {
+        int n = s.length();
+        int[] dp = new int[n + 1];
+
+        dp[n] = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            if (s.charAt(i) == '0') {
+                dp[i] = 0;
+            } else {
+                int one = dp[i + 1];
+                int two = 0;
+                if (i <n - 1) {
+                    if (s.charAt(i) == '1' || (s.charAt(i) == '2' && s.charAt(i + 1) <= '6')) {
+                        two = dp[i + 2];
+                    }
+                }
+                dp[i] = one + two;
+            }
+        }
+        return dp[0];
+    }
+}
